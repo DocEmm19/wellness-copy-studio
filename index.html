@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wellness Copy Studio · Redcliffe Labs</title>
+  <style>
+    :root { --magenta:#e6006e; --navy:#0f3557; --ink:#1c2b36; --muted:#6b7c88; --bg:#fff5f8; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); }
+    header { padding:20px 24px; border-bottom:1px solid #f0d9e3; }
+    header b { color:var(--magenta); } header span { color:var(--navy); }
+    main { max-width:1000px; margin:0 auto; padding:24px; }
+    .hidden { display:none !important; }
+    input, select, button { font-size:15px; padding:10px 12px; border-radius:8px; border:1px solid #d7c2cc; }
+    button { background:var(--magenta); color:#fff; border:0; cursor:pointer; }
+    button.sec { background:#fff; color:var(--navy); border:1px solid #cbd7df; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media (max-width:720px){ .grid{ grid-template-columns:1fr; } }
+    .card { background:#fff; border:1px solid #ecd7e0; border-radius:14px; padding:18px; }
+    .card.na { opacity:0.5; }
+    .card h3 { margin:0 0 4px; color:var(--navy); font-size:16px; }
+    .badge { font-size:11px; padding:2px 8px; border-radius:999px; background:#eef2f5; color:var(--muted); margin-left:8px; }
+    .headline { font-size:26px; font-weight:800; line-height:1.15; color:var(--navy); margin:10px 0; }
+    .headline .hl { color:var(--magenta); }
+    .subline { font-size:15px; color:var(--navy); white-space:pre-line; }
+    .fields { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; }
+    .msg { color:var(--muted); font-size:14px; }
+    .err { color:#b00020; }
+    .helper { color:var(--muted); font-size:13px; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <header><b>Redcliffe</b> <span>Wellness Copy Studio</span></header>
+  <main>
+    <!-- Passcode gate -->
+    <section id="gate">
+      <div class="row">
+        <input id="pass" type="password" placeholder="Team passcode" autocomplete="off">
+        <button id="unlock">Unlock</button>
+      </div>
+      <div id="gateMsg" class="helper">Ask Komal for the team passcode — you only enter it once per browser.</div>
+    </section>
+
+    <!-- App -->
+    <section id="app" class="hidden">
+      <div class="row">
+        <input id="filter" type="text" placeholder="Filter touchpoints…" style="flex:1;min-width:200px">
+        <select id="touchpoint" style="flex:2;min-width:260px"></select>
+        <button id="generate">Generate</button>
+      </div>
+      <div id="status" class="msg"></div>
+      <div id="cards" class="grid"></div>
+    </section>
+  </main>
+  <script src="copy-lib.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
