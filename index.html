@@ -29,6 +29,16 @@
     .msg { color:var(--muted); font-size:14px; }
     .err { color:#b00020; }
     .helper { color:var(--muted); font-size:13px; margin-top:6px; }
+    details.edit { margin:10px 0; }
+    details.edit summary { cursor:pointer; color:var(--muted); font-size:13px; }
+    details.edit label { display:block; font-size:12px; color:var(--muted); margin:6px 0; }
+    .in { width:100%; margin-top:2px; }
+    .refine { display:flex; gap:8px; margin:8px 0; }
+    .refine input { flex:1; }
+    button.ai { background:var(--navy); color:#fff; border:0; border-radius:8px; padding:10px 12px; cursor:pointer; }
+    button.save { background:#0a7d33; color:#fff; border:0; border-radius:8px; padding:10px 12px; cursor:pointer; }
+    .cardmsg { font-size:13px; color:#0a7d33; margin-top:6px; min-height:16px; }
+    .cardmsg.err { color:#b00020; }
   </style>
 </head>
 <body>
@@ -49,6 +59,7 @@
         <input id="filter" type="text" placeholder="Filter touchpoints…" style="flex:1;min-width:200px">
         <select id="touchpoint" style="flex:2;min-width:260px"></select>
         <button id="generate">Generate</button>
+        <button id="saveall" class="sec">Save all 4</button>
       </div>
       <div id="status" class="msg"></div>
       <div id="cards" class="grid"></div>

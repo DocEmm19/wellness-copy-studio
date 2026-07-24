@@ -54,31 +54,37 @@ var WCS_RELEVANCE = ['primary', 'secondary', 'na'];
 
 function _wordCount(s) { s = String(s || '').trim(); return s ? s.split(/\s+/).length : 0; }
 
+function validatePillar(c) {
+  if (!c || typeof c !== 'object') return { ok: false, reason: 'not an object' };
+  var fields = ['headline_line1', 'headline_line2', 'emphasis', 'emphasis_scope', 'subline', 'relevance'];
+  for (var f = 0; f < fields.length; f++) {
+    if (typeof c[fields[f]] !== 'string') return { ok: false, reason: 'missing ' + fields[f] };
+  }
+  if (WCS_SCOPES.indexOf(c.emphasis_scope) < 0) return { ok: false, reason: 'bad scope' };
+  if (WCS_RELEVANCE.indexOf(c.relevance) < 0) return { ok: false, reason: 'bad relevance' };
+  var lines = [c.headline_line1, c.headline_line2];
+  for (var l = 0; l < lines.length; l++) {
+    if (_wordCount(lines[l]) > 4) return { ok: false, reason: 'headline >4 words' };
+    if (lines[l].length > 20) return { ok: false, reason: 'headline >20 chars' };
+  }
+  var sub = c.subline.split('\n');
+  if (sub.length > 2) return { ok: false, reason: 'subline >2 lines' };
+  for (var s = 0; s < sub.length; s++) {
+    if (_wordCount(sub[s]) > 5) return { ok: false, reason: 'subline line >5 words' };
+  }
+  if (c.emphasis_scope !== 'all') {
+    var hay = (c.headline_line1 + ' ' + c.headline_line2).toLowerCase();
+    if (hay.indexOf(c.emphasis.toLowerCase().trim()) < 0) return { ok: false, reason: 'emphasis not in headline' };
+  }
+  return { ok: true };
+}
+
 function validateGeneration(pillars) {
   if (!pillars || typeof pillars !== 'object') return { ok: false, reason: 'not an object' };
   for (var i = 0; i < WCS_PILLARS.length; i++) {
-    var p = WCS_PILLARS[i], c = pillars[p];
-    if (!c || typeof c !== 'object') return { ok: false, reason: 'missing pillar ' + p };
-    var fields = ['headline_line1', 'headline_line2', 'emphasis', 'emphasis_scope', 'subline', 'relevance'];
-    for (var f = 0; f < fields.length; f++) {
-      if (typeof c[fields[f]] !== 'string') return { ok: false, reason: p + ' missing ' + fields[f] };
-    }
-    if (WCS_SCOPES.indexOf(c.emphasis_scope) < 0) return { ok: false, reason: p + ' bad scope' };
-    if (WCS_RELEVANCE.indexOf(c.relevance) < 0) return { ok: false, reason: p + ' bad relevance' };
-    var lines = [c.headline_line1, c.headline_line2];
-    for (var l = 0; l < lines.length; l++) {
-      if (_wordCount(lines[l]) > 4) return { ok: false, reason: p + ' headline >4 words' };
-      if (lines[l].length > 20) return { ok: false, reason: p + ' headline >20 chars' };
-    }
-    var sub = c.subline.split('\n');
-    if (sub.length > 2) return { ok: false, reason: p + ' subline >2 lines' };
-    for (var s = 0; s < sub.length; s++) {
-      if (_wordCount(sub[s]) > 5) return { ok: false, reason: p + ' subline line >5 words' };
-    }
-    if (c.emphasis_scope !== 'all') {
-      var hay = (c.headline_line1 + ' ' + c.headline_line2).toLowerCase();
-      if (hay.indexOf(c.emphasis.toLowerCase().trim()) < 0) return { ok: false, reason: p + ' emphasis not in headline' };
-    }
+    var p = WCS_PILLARS[i];
+    var r = validatePillar(pillars[p]);
+    if (!r.ok) return { ok: false, reason: p + ' ' + r.reason };
   }
   return { ok: true };
 }
@@ -117,6 +123,29 @@ function buildMessages(tp) {
   return [{ role: 'system', content: system }, { role: 'user', content: user }];
 }
 
+function buildRefineMessages(touchpoint, pillar, current, feedback) {
+  touchpoint = touchpoint || {};
+  var system = [
+    "You revise ONE Redcliffe wellness banner copy according to the user's feedback.",
+    'Return ONLY a JSON object with keys: {"headline_line1","headline_line2","emphasis","emphasis_scope","subline","relevance"}.',
+    'Apply the feedback; keep whatever the feedback does not ask to change. Preserve the banner structure and limits:',
+    '- each headline line <= 4 words AND <= 20 characters; subline <= 2 lines, each <= 5 words.',
+    '- emphasis must appear verbatim in the headline unless emphasis_scope is "all"; emphasis_scope in {word,line,all}; relevance in {primary,secondary,na}.',
+    'Voice: second person, aspirational, simple universal English.',
+    'Prohibitions: no clinical or diagnosis claims; no discounts/urgency unless the touchpoint is transactional; no emojis; no slang, idioms, or transliteration.'
+  ].join('\n');
+  var user = [
+    'Touchpoint: ' + (touchpoint.name || ''),
+    'When it is sent: ' + (touchpoint.when || ''),
+    'Message body: ' + (touchpoint.body || ''),
+    'Push text: ' + (touchpoint.push || ''),
+    'Pillar: ' + pillar,
+    'Current copy (JSON): ' + JSON.stringify(current || {}),
+    'Feedback to apply: ' + (feedback || '')
+  ].join('\n');
+  return [{ role: 'system', content: system }, { role: 'user', content: user }];
+}
+
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { stripPII, splitEmphasis, validateGeneration, buildMessages, WCS_PILLARS };
+  module.exports = { stripPII, splitEmphasis, validateGeneration, validatePillar, buildMessages, buildRefineMessages, WCS_PILLARS };
 }
