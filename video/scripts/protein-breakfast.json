@@ -1,0 +1,17 @@
+{
+  "slug": "protein-breakfast",
+  "title": "Your breakfast is the reason you snack",
+  "format": "portrait",
+  "hook_type": "contrarian",
+  "voice": "af_heart",
+  "speed": 1.1,
+  "handle": "@redcliffelabs",
+  "scenes": [
+    { "role": "hook", "style": "punch", "say": "Stop eating a healthy breakfast.", "onscreen": "Stop eating a healthy breakfast", "emphasis": "Stop" },
+    { "role": "stakes", "style": "kinetic", "say": "That fruit bowl is why you're starving by eleven.", "onscreen": "Starving by 11am?", "emphasis": "11am?" },
+    { "role": "value", "style": "contrast", "say": "Fruit and toast burn off fast. Eggs and yoghurt keep you full.", "old": "Fruit bowl + toast", "new": "Eggs + Greek yoghurt" },
+    { "role": "rehook", "style": "punch", "say": "But the trick isn't cutting fruit.", "onscreen": "Keep the fruit", "emphasis": "Keep" },
+    { "role": "payoff", "style": "list", "say": "Add protein first, then the fruit. Same breakfast, fuller morning.", "onscreen": "Build it like this", "emphasis": "this", "items": ["Protein first", "Then fibre", "Fruit on top"] },
+    { "role": "cta", "style": "cta", "say": "Save this for tomorrow morning.", "onscreen": "Try it tomorrow morning", "emphasis": "tomorrow", "button": "Save this" }
+  ]
+}

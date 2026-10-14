@@ -1,0 +1,20 @@
+{
+  "slug": "3pm-crash",
+  "title": "Why you crash at 3pm",
+  "format": "portrait",
+  "hook_type": "question",
+  "voice": "af_heart",
+  "speed": 1.1,
+  "handle": "@redcliffelabs",
+  "brand": { "accent": "#e6006e", "bg": "#0f3557", "bg2": "#1c2b36" },
+  "loop": true,
+  "scenes": [
+    { "role": "hook", "style": "punch", "say": "Why do you crash at 3pm every single day?", "onscreen": "Why the 3pm crash?", "emphasis": "3pm" },
+    { "role": "stakes", "style": "kinetic", "say": "It's not your sleep. And more coffee makes it worse.", "onscreen": "It's not your sleep.", "emphasis": "not" },
+    { "role": "value", "style": "contrast", "say": "A lunch of white rice and juice spikes your blood sugar, then drops it.", "old": "Rice + juice lunch", "new": "Protein + fibre lunch" },
+    { "role": "rehook", "style": "punch", "say": "But here's the part nobody tells you.", "onscreen": "Nobody tells you this", "emphasis": "Nobody" },
+    { "role": "value", "style": "list", "say": "Try three small swaps at lunch this week.", "onscreen": "3 lunch swaps", "emphasis": "3", "items": ["Eat the protein first", "Swap juice for water", "Take a 10-minute walk"] },
+    { "role": "payoff", "style": "stat", "say": "Even a ten minute walk after eating helps flatten the dip.", "stat": "10 min", "label": "walk after lunch flattens the dip" },
+    { "role": "cta", "style": "cta", "say": "Save this, and try it before your next 3pm crash.", "onscreen": "Try it before your next 3pm crash", "emphasis": "3pm", "button": "Save this" }
+  ]
+}

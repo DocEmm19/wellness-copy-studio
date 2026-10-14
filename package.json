@@ -1,0 +1,12 @@
+{
+  "name": "wellness-copy-studio",
+  "private": true,
+  "scripts": {
+    "video": "node video/build.js",
+    "video:check": "node video/check.js",
+    "test": "node --test video/test/*.test.js"
+  },
+  "devDependencies": {
+    "gsap": "3.14.2"
+  }
+}
